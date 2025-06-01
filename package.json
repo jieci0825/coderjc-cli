@@ -7,8 +7,9 @@
     "scripts": {},
     "repository": {
         "type": "git",
-        "url": "https://gitee.com/qwer-li/coderjc-cli.git"
+        "url": "https://github.com/jieci0825/coderjc-cli"
     },
+    "homepage": "https://github.com/jieci0825/coderjc-cli",
     "bin": {
         "coderjc": "./src/index.ts",
         "cc": "./src/index.ts"
