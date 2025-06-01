@@ -1,0 +1,35 @@
+{
+    "name": "coderjc-cli",
+    "version": "0.1.0",
+    "description": "一个简单的模板拉取工具，如果你觉得我的模板不错，欢迎使用",
+    "author": "coderjc <coderjc@qq.com>",
+    "main": "src/index.ts",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "https://gitee.com/qwer-li/coderjc-cli.git"
+    },
+    "bin": {
+        "coderjc": "./src/index.ts",
+        "cc": "./src/index.ts"
+    },
+    "keywords": [
+        "cli",
+        "nodejs",
+        "template"
+    ],
+    "license": "MIT",
+    "packageManager": "pnpm@10.11.0",
+    "dependencies": {
+        "chalk": "^5.4.1",
+        "commander": "^14.0.0",
+        "fs-extra": "^11.3.0",
+        "inquirer": "^12.6.3",
+        "ora": "^8.2.0"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^11.0.4",
+        "@types/inquirer": "^9.0.8",
+        "@types/node": "^22.15.29"
+    }
+}
