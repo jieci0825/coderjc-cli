@@ -25,9 +25,16 @@ coderjc create <project-name>
 
 也可以通过附加参数，来指定模板。例如，创建一个基于 Koa 的接口示例。
 ```bash
-cc create <project-name> --template koa-api-standard-ts
+cc create <project-name> --template <template-name>
 ```
 当然，如果选择的模板后续存在其他配置，你仍然需要按照提示操作。
+
+如果当前工作目录下存在同名项目，那么会询问是否覆盖。当然你也可以选择添加 `-f` 参数，来强制覆盖。
+```bash
+cc create <project-name> -f
+# or
+cc create <project-name> --template <template-name> -f
+```
 
 
 ## 模板列表
