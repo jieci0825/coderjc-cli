@@ -2,12 +2,18 @@
     "compilerOptions": {
         "target": "es2015",
         "module": "commonjs",
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
+        "declaration": true, // 生成声明文件
+        "declarationDir": "./dist/types", // 声明文件输出目录
+        "esModuleInterop": true, // 启用 CommonJS 和 ES 模块之间的互操作性
+        "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
+        "skipLibCheck": true,
         "baseUrl": ".",
+        "outDir": "dist",
         "paths": {
             "@/*": ["src/*"]
         }
     },
-    "include": ["src/**/*"]
+    "include": ["src/**/*", "node_modules/"]
 }

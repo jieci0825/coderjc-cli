@@ -1,3 +1,6 @@
 #!/usr/bin/env node
 
-console.log('hello world 123')
+import chalk from 'chalk'
+import { Command } from 'commander'
+
+console.log(chalk.blue('Hello World'))
