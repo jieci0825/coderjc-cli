@@ -5,8 +5,7 @@
     "author": "coderjc <coderjc@qq.com>",
     "main": "src/index.ts",
     "scripts": {
-        "build": "vite build",
-        "build:tsup": "tsup"
+        "build": "tsup"
     },
     "repository": {
         "type": "git",
