@@ -4,15 +4,17 @@
     "description": "一个简单的模板拉取工具，如果你觉得我的模板不错，欢迎使用",
     "author": "coderjc <coderjc@qq.com>",
     "main": "src/index.ts",
-    "scripts": {},
+    "scripts": {
+        "build": "vite build"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/jieci0825/coderjc-cli"
     },
     "homepage": "https://github.com/jieci0825/coderjc-cli",
     "bin": {
-        "coderjc": "./src/index.ts",
-        "cc": "./src/index.ts"
+        "coderjc": "./bin/index.js",
+        "cc": "./bin/index.js"
     },
     "keywords": [
         "cli",
@@ -31,6 +33,7 @@
     "devDependencies": {
         "@types/fs-extra": "^11.0.4",
         "@types/inquirer": "^9.0.8",
-        "@types/node": "^22.15.29"
+        "@types/node": "^22.15.29",
+        "vite": "^6.3.5"
     }
 }
