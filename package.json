@@ -4,10 +4,14 @@
     "description": "一个简单的模板拉取工具，如果你觉得我的模板不错，欢迎使用",
     "author": "coderjc <coderjc@qq.com>",
     "main": "lib/index.js",
+    "engines": {
+        "node": ">=16.0.0"
+    },
     "type": "module",
     "scripts": {
         "dev": "tsc --watch",
-        "build": "tsc"
+        "clean": "node scripts/clean.js",
+        "build": "npm run clean && tsc"
     },
     "repository": {
         "type": "git",

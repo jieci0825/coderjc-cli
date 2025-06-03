@@ -1,18 +1,20 @@
 {
     "compilerOptions": {
-        "target": "ES2020", // 编译后的JS版本，ES2020比较新且兼容性好
-        "module": "CommonJS", // 模块系统，CommonJS适合Node.js项目
-        "lib": ["ES2020"], // 可以使用的JS库，包含ES2020的所有新特性
+        "target": "ES2022", // 编译后的JS版本，ES2022有更好的ESM支持
+        "module": "ESNext", // 模块系统，ESNext支持最新的ES模块
+        "moduleResolution": "node", // 模块解析策略，node用于Node.js环境
+        "lib": ["ES2022"], // 可以使用的JS库，包含ES2022的所有新特性
         "outDir": "./lib", // 编译后的文件放在lib文件夹
         "rootDir": "./src", // 源代码都在src文件夹里
         "strict": true, // 开启严格模式，帮你发现更多错误
         "esModuleInterop": true, // 让import和require能更好地配合使用
+        "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块中默认导入
         "skipLibCheck": true, // 跳过第三方库的类型检查，编译更快
         "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致，避免跨平台问题
         "resolveJsonModule": true, // 允许直接import json文件
-        "declaration": true, // 生成.d.ts类型声明文件，方便别人使用你的库
-        "declarationMap": true, // 生成声明文件的映射，调试时更方便
-        "sourceMap": true // 生成源码映射文件，方便调试
+        "declaration": false, // 生成.d.ts类型声明文件，方便别人使用你的库
+        "declarationMap": false, // 生成声明文件的映射，调试时更方便
+        "sourceMap": false // 生成源码映射文件，方便调试
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "lib", "**/*.test.ts"]
