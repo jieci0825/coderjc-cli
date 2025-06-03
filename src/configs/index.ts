@@ -1,1 +1,1 @@
-export { default as TEMPLATES } from './templates.ts'
+export { default as TEMPLATES } from './templates'

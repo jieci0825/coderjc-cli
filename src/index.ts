@@ -1,6 +1,3 @@
-#!/usr/bin/env node
-
 import chalk from 'chalk'
-import { Command } from 'commander'
 
-console.log(chalk.blue('Hello World'))
+console.log(chalk.blue('Hello World 111'))

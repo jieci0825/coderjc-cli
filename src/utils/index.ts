@@ -1,2 +1,2 @@
-export * from './check-type.ts'
-export * from './tools.ts'
+export * from './check-type'
+export * from './tools'
