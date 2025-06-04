@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
-import { resolve } from 'path'
-import { readdirSync, statSync } from 'fs'
-import { join } from 'path'
+import { resolve, join } from 'node:path'
+import { readdirSync, statSync } from 'node:fs'
+import alias from '@rollup/plugin-alias'
 
 // 递归获取 src 目录下的所有 .ts 文件
 function getEntryPoints(dir: string, base: string = ''): Record<string, string> {
@@ -26,6 +26,11 @@ function getEntryPoints(dir: string, base: string = ''): Record<string, string> 
 }
 
 export default defineConfig({
+    resolve: {
+        alias: {
+            '@': resolve(__dirname, 'src')
+        }
+    },
     build: {
         target: 'node16',
         outDir: 'lib',
@@ -34,6 +39,12 @@ export default defineConfig({
             formats: ['es']
         },
         rollupOptions: {
+            plugins: [
+                // 别名插件：确保在构建时也能正确解析 @ 别名
+                alias({
+                    entries: [{ find: '@', replacement: resolve(__dirname, 'src') }]
+                })
+            ],
             external: [
                 // Node.js 内置模块
                 'fs',

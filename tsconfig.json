@@ -13,7 +13,11 @@
         "declaration": false, // 生成.d.ts类型声明文件，方便别人使用你的库
         "declarationMap": false, // 生成声明文件的映射，调试时更方便
         "sourceMap": false, // 生成源码映射文件，方便调试
-        "noEmit": true // 确保生成输出文件
+        "noEmit": true, // 确保生成输出文件
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+        }
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "lib", "**/*.test.ts"]

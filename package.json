@@ -9,7 +9,7 @@
     },
     "type": "module",
     "scripts": {
-        "dev": "tsc --watch",
+        "dev": "vite build --watch",
         "clean": "node scripts/clean.js",
         "build": "npm run clean && vite build"
     },
@@ -35,12 +35,15 @@
         "fs-extra": "^11.3.0",
         "inquirer": "^12.6.3",
         "ora": "^8.2.0",
-        "read-pkg": "^9.0.1"
+        "read-pkg": "^9.0.1",
+        "validate-npm-package-name": "^6.0.0"
     },
     "devDependencies": {
+        "@rollup/plugin-alias": "^5.1.1",
         "@types/fs-extra": "^11.0.4",
         "@types/inquirer": "^9.0.8",
         "@types/node": "^22.15.29",
+        "@types/validate-npm-package-name": "^4.0.2",
         "typescript": "^5.8.3",
         "vite": "^6.3.5"
     }
