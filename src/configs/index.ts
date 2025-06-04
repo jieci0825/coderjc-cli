@@ -1,1 +1,1 @@
-export { default as TEMPLATES } from './templates'
+export * from './templates'

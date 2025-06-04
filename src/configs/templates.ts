@@ -4,7 +4,14 @@ export interface ITemplateItem {
     value: string
 }
 
-const TEMPLATES: ITemplateItem[] = [
+export const TemplateOrigin = {
+    gitee: 'https://gitee.com',
+    github: 'https://github.com'
+} as const
+
+export type TemplateOriginType = keyof typeof TemplateOrigin
+
+export const TemplateList: ITemplateItem[] = [
     {
         name: 'temp1',
         description: '测试模板',
@@ -16,5 +23,3 @@ const TEMPLATES: ITemplateItem[] = [
         value: 'temp2'
     }
 ]
-
-export default TEMPLATES
