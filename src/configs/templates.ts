@@ -1,15 +1,9 @@
-export interface ITemplateItem {
-    name: string
-    description: string
-    value: string
-}
+import { ITemplateItem, ITemplateOrigin, TemplateOriginType } from '@/types/template'
 
-export const TemplateOrigin = {
+export const TemplateOrigin: ITemplateOrigin = {
     gitee: 'https://gitee.com',
     github: 'https://github.com'
-} as const
-
-export type TemplateOriginType = keyof typeof TemplateOrigin
+}
 
 export const TemplateList: ITemplateItem[] = [
     {

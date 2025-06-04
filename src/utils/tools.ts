@@ -1,10 +1,11 @@
 import { TemplateOrigin, TemplateOriginType } from '@/configs'
+import { IValidationResult } from '@/types/utils'
 import validateNpmPackageName from 'validate-npm-package-name'
 import ora from 'ora'
 import { danger, info, success } from './logger'
 
 // 检测是否是一个合法的项目名称
-export function validateProjectName(name: string): { valid: boolean; message: string } {
+export function validateProjectName(name: string): IValidationResult {
     // 不能为空
     if (!name || name.trim() === '') {
         return { valid: false, message: '项目名称不能为空' }

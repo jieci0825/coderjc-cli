@@ -1,6 +1,7 @@
 import chalk, { ChalkInstance } from 'chalk'
 import { ForegroundColorName, BackgroundColorName } from 'chalk/source/vendor/ansi-styles'
 import { isArray, isString } from './check-type'
+import { IMessageTypeOptions } from '@/types/logger'
 
 function isForegroundColorName(color: string): color is ForegroundColorName {
     return [
@@ -48,40 +49,22 @@ function isBackgroundColorName(color: string): color is BackgroundColorName {
     ].includes(color)
 }
 
-export type MessageType = 'info' | 'primary' | 'success' | 'warn' | 'error'
-
-export type MessageTypeOptions = {
-    bold?: boolean
-    underline?: boolean
-    color?: ForegroundColorName | null
-    bgColor?: BackgroundColorName | null
+function createMessageBase(color: ForegroundColorName) {
+    return function (message: string, opt: IMessageTypeOptions = {}, isLog: boolean = true) {
+        const mb = new MessageBuilder(message, { ...opt, color })
+        return mb.build(isLog)
+    }
 }
-
-export function info(message: string, opt: MessageTypeOptions = {}, isLog: boolean = true) {
-    const mb = new MessageBuilder(message, { ...opt, color: 'grey' })
-    return mb.build(isLog)
-}
-
-export function primary(message: string, opt: MessageTypeOptions = {}, isLog: boolean = true) {
-    const mb = new MessageBuilder(message, { ...opt, color: 'blue' })
-    return mb.build(isLog)
-}
-
-export function success(message: string, opt: MessageTypeOptions = {}, isLog: boolean = true) {
-    const mb = new MessageBuilder(message, { ...opt, color: 'green' })
-    return mb.build(isLog)
-}
-
-export function danger(message: string, opt: MessageTypeOptions = {}, isLog: boolean = true) {
-    const mb = new MessageBuilder(message, { ...opt, color: 'red' })
-    return mb.build(isLog)
-}
+export const info = createMessageBase('grey')
+export const primary = createMessageBase('blue')
+export const success = createMessageBase('green')
+export const danger = createMessageBase('red')
 
 class MessageBuilder {
     private message: string
-    private options: MessageTypeOptions
+    private options: IMessageTypeOptions
 
-    constructor(message: string, options: MessageTypeOptions) {
+    constructor(message: string, options: IMessageTypeOptions) {
         this.message = message
         this.options = normalizeOptions(options)
     }
@@ -97,7 +80,7 @@ class MessageBuilder {
     }
 
     build(isLog: boolean = true) {
-        const optList = Object.entries(this.options) as [[key: keyof MessageTypeOptions, value: any]]
+        const optList = Object.entries(this.options) as [[key: keyof IMessageTypeOptions, value: any]]
 
         const result = optList.reduce((acc: ChalkInstance, [key, value]) => {
             if (!value) return acc
@@ -130,7 +113,7 @@ class MessageBuilder {
     }
 }
 
-function normalizeOptions(opt: MessageTypeOptions) {
+function normalizeOptions(opt: IMessageTypeOptions) {
     return {
         bold: opt.bold || false,
         underline: opt.underline || false,
