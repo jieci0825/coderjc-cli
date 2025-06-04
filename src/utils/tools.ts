@@ -1,8 +1,9 @@
-import { TemplateOrigin, TemplateOriginType } from '@/configs'
+import { TemplateOrigin } from '@/configs'
 import { IValidationResult } from '@/types/utils'
 import validateNpmPackageName from 'validate-npm-package-name'
 import ora from 'ora'
 import { danger, info, success } from './logger'
+import { TemplateOriginType } from '@/types'
 
 // 检测是否是一个合法的项目名称
 export function validateProjectName(name: string): IValidationResult {
