@@ -13,6 +13,7 @@ function isForegroundColorName(color: string): color is ForegroundColorName {
         'cyan',
         'white',
         'gray',
+        'grey',
         'blackBright',
         'redBright',
         'greenBright',

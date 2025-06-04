@@ -1,7 +1,25 @@
+import { TemplateOriginType } from '@/configs'
 import { checkTemplateOrigin, validateProjectName } from '@/utils'
 import chalk from 'chalk'
 
-export default async function createCommand(projectName: string) {
+export type CreateActionContext = {
+    projectName: string
+    originType: TemplateOriginType
+}
+
+// 创建行为上下文
+function createActionContext(projectName: string) {
+    const ctx = {
+        projectName,
+        originType: 'github'
+    }
+
+    return ctx
+}
+
+export default async function createCommand(projectName: string, options: any) {
+    console.log(options)
+
     try {
         const validResult = validateProjectName(projectName)
         if (!validResult.valid) {
@@ -9,7 +27,7 @@ export default async function createCommand(projectName: string) {
             return
         }
 
-        const origin = await checkTemplateOrigin()
+        // const origin = await checkTemplateOrigin()
 
         process.exit(0)
     } catch (error) {

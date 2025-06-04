@@ -15,11 +15,11 @@ export const TemplateList: ITemplateItem[] = [
     {
         name: 'temp1',
         description: '测试模板',
-        value: 'temp1'
+        value: 'test-temp1'
     },
     {
         name: 'temp2',
         description: '测试模板2',
-        value: 'temp2'
+        value: 'test-temp2'
     }
 ]
