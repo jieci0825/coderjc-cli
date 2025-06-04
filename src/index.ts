@@ -1,12 +1,8 @@
 import { program } from 'commander'
 import { readPackage } from 'read-pkg'
 import { createCommand, listCommand } from './commands'
-import { danger } from './utils'
 
 async function init() {
-    console.log(danger('暂未开放1111', {}, false))
-
-    return
     const pkg = await readPackage()
 
     program
