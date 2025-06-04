@@ -121,7 +121,11 @@ class MessageBuilder {
             return acc[key]
         }, chalk)
 
-        return isLog ? console.log(result(this.message)) : result(this.message)
+        if (isLog) {
+            console.log(result(this.message))
+        }
+
+        return result(this.message)
     }
 }
 
