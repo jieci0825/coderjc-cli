@@ -1,7 +1,7 @@
-import { IQuestionItemBase } from '@/types'
+import { IQuestionConfirm } from '@/types'
 
-export default function isForceQuestion() {
-    const question: IQuestionItemBase = {
+export function isForceQuestion() {
+    const question: IQuestionConfirm = {
         type: 'confirm',
         name: 'force',
         message: '已经存在同名文件，是否强制覆盖？'

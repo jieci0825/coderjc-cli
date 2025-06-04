@@ -1,3 +1,5 @@
+import type { Question } from 'inquirer'
+
 type InquirerQuestionType =
     | 'input'
     | 'number'
@@ -16,5 +18,12 @@ export interface IQuestionItemBase {
 }
 
 export interface IQuestionConfirm extends IQuestionItemBase {
+    type: 'confirm'
     default?: boolean
+}
+
+export interface IQuestionList extends IQuestionItemBase {
+    type: 'list'
+    choices: Question['choices']
+    default?: string
 }

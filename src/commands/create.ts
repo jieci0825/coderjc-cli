@@ -1,6 +1,8 @@
+import { templateListQuestion } from '@/questions'
 import { CreateActionContext } from '@/types'
 import { checkTemplateOrigin, validateProjectName } from '@/utils'
 import chalk from 'chalk'
+import inquirer from 'inquirer'
 
 // 创建行为上下文
 function createActionContext(projectName: string) {
@@ -11,6 +13,11 @@ function createActionContext(projectName: string) {
     }
 
     return ctx
+}
+
+async function selectTemplate(ctx: CreateActionContext) {
+    const result = await inquirer.prompt(templateListQuestion())
+    ctx.templateName = result.templateName
 }
 
 export default async function createCommand(projectName: string, options: any) {
@@ -26,6 +33,8 @@ export default async function createCommand(projectName: string, options: any) {
 
         const origin = await checkTemplateOrigin()
         ctx.originType = origin
+
+        await selectTemplate(ctx)
 
         process.exit(0)
     } catch (error) {
