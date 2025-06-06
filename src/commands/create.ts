@@ -1,6 +1,6 @@
 import { templateListQuestion } from '@/questions'
 import { CreateActionContext } from '@/types'
-import { checkTemplateOrigin, validateProjectName } from '@/utils'
+import { checkTemplateOrigin, downloadTemplate, validateProjectName } from '@/utils'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
 
@@ -35,6 +35,9 @@ export default async function createCommand(projectName: string, options: any) {
         ctx.originType = origin
 
         await selectTemplate(ctx)
+
+        // !test
+        await downloadTemplate(ctx)
 
         process.exit(0)
     } catch (error) {

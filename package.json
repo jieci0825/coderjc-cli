@@ -9,7 +9,7 @@
     },
     "type": "module",
     "scripts": {
-        "dev": "vite build --watch",
+        "dev": "npm run clean && vite build --watch",
         "clean": "node scripts/clean.js",
         "build": "npm run clean && vite build"
     },

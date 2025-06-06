@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
-import { resolve, join } from 'node:path'
-import { readdirSync, statSync } from 'node:fs'
+import { resolve, join } from 'path'
+import { readdirSync, statSync } from 'fs'
 import alias from '@rollup/plugin-alias'
 
 // 递归获取 src 目录下的所有 .ts 文件
@@ -60,6 +60,7 @@ export default defineConfig({
                 // 项目依赖
                 'chalk',
                 'commander',
+                'execa',
                 'fs-extra',
                 'inquirer',
                 'log-symbols',
