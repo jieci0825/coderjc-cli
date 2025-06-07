@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve, join } from 'path'
 import { readdirSync, statSync } from 'fs'
 import alias from '@rollup/plugin-alias'
+import copy from 'rollup-plugin-copy'
 
 // 递归获取 src 目录下的所有 .ts 文件
 function getEntryPoints(dir: string, base: string = ''): Record<string, string> {
@@ -43,6 +44,12 @@ export default defineConfig({
                 // 别名插件：确保在构建时也能正确解析 @ 别名
                 alias({
                     entries: [{ find: '@', replacement: resolve(__dirname, 'src') }]
+                }),
+                // 复制插件：将JSON配置文件复制到输出目录
+                copy({
+                    targets: [{ src: 'src/global-config.json', dest: 'lib' }],
+                    // 'writeBundle'确保在构建完成后复制文件
+                    hook: 'writeBundle'
                 })
             ],
             external: [

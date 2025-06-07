@@ -46,6 +46,7 @@
         "@types/inquirer": "^9.0.8",
         "@types/node": "^22.15.29",
         "@types/validate-npm-package-name": "^4.0.2",
+        "rollup-plugin-copy": "^3.5.0",
         "typescript": "^5.8.3",
         "vite": "^6.3.5"
     }
