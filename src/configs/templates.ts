@@ -17,3 +17,8 @@ export const TemplateList: ITemplateItem[] = [
         value: 'test-temp2'
     }
 ]
+
+// 检测这个模板名称是否存在于模板列表中
+export function checkTemplateExist(templateName: string): boolean {
+    return TemplateList.some(item => item.value === templateName)
+}

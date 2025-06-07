@@ -1,17 +1,30 @@
 import { CreateActionContext } from '@/types'
 import { execa } from 'execa'
-import path from 'path'
+import ora from 'ora'
+import { danger, primary, success } from './logger'
+import download from 'download-git-repo'
 
 // 下载模板
-export async function downloadTemplate(ctx: CreateActionContext) {
-    const dest = path.resolve(process.cwd(), ctx.projectName)
+export function downloadTemplate(ctx: CreateActionContext) {
+    return new Promise<void>((resolve, reject) => {
+        const spinner = ora(primary(`模板拉取中，请稍后...`, {}, false)).start()
 
-    // ! 这个 desc 这个目录是必须先创建，所以在下载模板之前，先创建目录，即处理 options
+        const url = {
+            gitee: 'https://gitee.com/qwer-li/coderjc-template.git',
+            github: 'https://github.com/jieci0825/coderjc-template.git'
+        }
 
-    if (ctx.originType === 'gitee') {
-        // gitee 存在人机验证，所以直接执行 git clone 命令
-        await execa('git', ['clone', `https://gitee.com/qwer-li/coderjc-template.git`, dest], {
+        execa('git', ['clone', url[ctx.originType], ctx.projectPath], {
             cwd: process.cwd()
         })
-    }
+            .then(() => {
+                spinner.succeed(success(`模板拉取成功`, {}, false))
+                resolve()
+            })
+            .catch(() => {
+                spinner.fail(danger(`模板拉取失败`, {}, false))
+                reject()
+                process.exit(0)
+            })
+    })
 }

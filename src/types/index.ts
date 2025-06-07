@@ -1,14 +1,8 @@
 /**
  * 类型定义统一导出
  */
-import type { TemplateOriginType } from './template'
 
-// 创建命令上下文
-export type CreateActionContext = {
-    projectName: string
-    originType: TemplateOriginType
-    templateName: string
-}
+export type { CreateActionContext } from './create-command'
 
 export type { ITemplateItem, ITemplateOrigin, TemplateOriginType } from './template'
 
