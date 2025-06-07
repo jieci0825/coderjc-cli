@@ -11,7 +11,9 @@ import {
     dirExists,
     removeDir,
     createDir,
-    success
+    success,
+    readJsonFile,
+    writeJsonFile
 } from '@/utils'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
@@ -92,6 +94,25 @@ async function selectTemplate(ctx: CreateActionContext) {
     ctx.templateName = result.templateName
 }
 
+// 修改模板 package.json 的内容
+async function modifyPackageJson(ctx: CreateActionContext) {
+    const spinner = ora(info(`正在修改 ${ctx.projectName} 的 package.json 文件`, {}, false)).start()
+
+    const packageJsonPath = path.join(ctx.projectPath, 'package.json')
+
+    const pkg = readJsonFile(packageJsonPath)
+    if (!pkg) {
+        spinner.fail(danger(`${ctx.projectName} 的 package.json 文件不存在`, {}, false))
+        process.exit(0)
+    }
+
+    pkg.name = ctx.projectName
+
+    writeJsonFile(packageJsonPath, pkg)
+
+    spinner.succeed(success(`修改 ${ctx.projectName} 的 package.json 文件成功`, {}, false))
+}
+
 export default async function createCommand(projectName: string, options: CreateCommandOptions) {
     const ctx = createActionContext(projectName)
 
@@ -108,8 +129,8 @@ export default async function createCommand(projectName: string, options: Create
         ctx.originType = origin
 
         await selectTemplate(ctx)
-
         await downloadTemplate(ctx)
+        await modifyPackageJson(ctx)
 
         process.exit(0)
     } catch (error) {

@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, rmSync, statSync } from 'fs'
+import { existsSync, mkdirSync, rmSync, statSync, readFileSync, writeFileSync } from 'fs'
 import { dirname } from 'path'
 
 /**
@@ -103,5 +103,53 @@ export function getStats(path: string) {
         return statSync(path)
     } catch {
         return null
+    }
+}
+
+// 读取json文件数据
+/**
+ * 读取JSON文件数据
+ * @param filePath JSON文件路径
+ * @returns 解析后的JSON数据，如果失败返回null
+ */
+export function readJsonFile<T = any>(filePath: string): T | null {
+    try {
+        if (!fileExists(filePath)) {
+            console.error('JSON文件不存在:', filePath)
+            return null
+        }
+
+        const content = readFileSync(filePath, 'utf-8')
+        return JSON.parse(content) as T
+    } catch (error) {
+        console.error('读取JSON文件失败:', error)
+        return null
+    }
+}
+
+/**
+ * 写入JSON文件数据
+ * @param filePath JSON文件路径
+ * @param data 要写入的数据对象
+ * @param indent 缩进空格数，默认为2，传入0则不格式化
+ * @returns 是否写入成功
+ */
+export function writeJsonFile<T = any>(filePath: string, data: T, indent: number = 2): boolean {
+    try {
+        // 确保目录存在
+        if (!ensureDir(filePath)) {
+            console.error('创建目录失败:', filePath)
+            return false
+        }
+
+        // 将数据序列化为JSON字符串
+        const jsonString = JSON.stringify(data, null, indent)
+
+        // 写入文件
+        writeFileSync(filePath, jsonString, 'utf-8')
+        return true
+    } catch (error) {
+        console.error('写入JSON文件失败:', error)
+        return false
     }
 }
