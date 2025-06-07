@@ -67,7 +67,8 @@ export default defineConfig({
                 'ora',
                 'simple-git',
                 'validate-npm-package-name',
-                'read-pkg'
+                'read-pkg',
+                'download-git-repo'
             ],
             output: {
                 preserveModules: true,
