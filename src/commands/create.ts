@@ -108,7 +108,7 @@ async function modifyPackageJson(ctx: CreateActionContext) {
 
     pkg.name = ctx.projectName
 
-    writeJsonFile(packageJsonPath, pkg)
+    writeJsonFile(packageJsonPath, pkg, 4)
 
     spinner.succeed(success(`修改 ${ctx.projectName} 的 package.json 文件成功`, {}, false))
 }
