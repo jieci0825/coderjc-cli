@@ -19,3 +19,5 @@ export type {
 } from './utils'
 
 export * from './question'
+
+export type { IGlobalConfig } from './global-config'

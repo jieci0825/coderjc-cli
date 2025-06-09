@@ -5,20 +5,20 @@ export const TemplateOrigin: ITemplateOrigin = {
     github: 'https://github.com'
 }
 
-export const TemplateList: ITemplateItem[] = [
-    {
-        name: 'temp1',
-        description: '测试模板',
-        value: 'test-temp1'
-    },
-    {
-        name: 'temp2',
-        description: '测试模板2',
-        value: 'test-temp2'
-    }
-]
+export const templateList: ITemplateItem[] = []
+
+// 设置模板
+export function setTemplateList(list: ITemplateItem[]) {
+    // 清空模板列表然后重新设置
+    templateList.splice(0, templateList.length, ...list)
+}
+
+// 获取模板列表
+export function getTemplateList(): ITemplateItem[] {
+    return templateList
+}
 
 // 检测这个模板名称是否存在于模板列表中
 export function checkTemplateExist(templateName: string): boolean {
-    return TemplateList.some(item => item.value === templateName)
+    return templateList.some(item => item.value === templateName)
 }

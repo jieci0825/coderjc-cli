@@ -1,8 +1,25 @@
 import { program } from 'commander'
 import { readPackage } from 'read-pkg'
 import { createCommand, listCommand } from './commands'
+import path from 'path'
+import { readJsonFile } from './utils'
+import { getTemplateList, setTemplateList } from './configs'
+
+// 加载配置
+async function loadConfigs() {
+    const globalJsonPath = path.join(import.meta.dirname, 'global-config.json')
+    const data = readJsonFile(globalJsonPath)
+
+    setTemplateList(data.templateList)
+
+    console.log(getTemplateList())
+}
 
 async function init() {
+    await loadConfigs()
+
+    process.exit(0)
+
     const pkg = await readPackage()
 
     program

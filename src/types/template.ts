@@ -6,6 +6,7 @@
 export interface ITemplateItem {
     name: string
     description: string
+    originUrl: null | string
     value: string
 }
 
