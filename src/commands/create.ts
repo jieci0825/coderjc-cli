@@ -116,10 +116,21 @@ async function modifyPackageJson(ctx: CreateActionContext) {
     spinner.succeed(success(`修改 ${ctx.projectName} 的 package.json 文件成功`, {}, false))
 }
 
+// 验证模板列表是否为空
+function validateTemplateListEmpty(ctx: CreateActionContext) {
+    const templateList = ctx.cmInstance.getTemplateList()
+    if (!templateList || templateList.length === 0) {
+        danger(`模板列表为空，请先添加模板`)
+        process.exit(0)
+    }
+}
+
 export default async function createCommand(projectName: string, options: CreateCommandOptions) {
     const ctx = createActionContext(projectName)
 
     try {
+        validateTemplateListEmpty(ctx)
+
         const validResult = validateProjectName(projectName)
         if (!validResult.valid) {
             danger(`项目名称不符合规范: ${validResult.message}`)
@@ -136,9 +147,9 @@ export default async function createCommand(projectName: string, options: Create
         await modifyPackageJson(ctx)
 
         process.exit(0)
-    } catch (error) {
+    } catch (error: any) {
         removeDir(ctx.projectPath)
-        console.log(chalk.redBright(error))
+        danger(error.message)
         process.exit(1)
     }
 }
