@@ -1,5 +1,4 @@
 {
-    "defaultOrigin": "https://github.com/jieci0825/coderjc-template",
     "templateList": [
         {
             "name": "koa-quick",
@@ -19,9 +18,5 @@
             "originUrl": null,
             "value": "koa-server-ts"
         }
-    ],
-    "templateOrigins": {
-        "gitee": "https://gitee.com/qwer-li/coderjc-template",
-        "github": "https://github.com/jieci0825/coderjc-template"
-    }
+    ]
 }

@@ -32,41 +32,6 @@ export class ConfigManager {
         return this.config[key]
     }
 
-    // 获取默认源
-    getDefaultOrigin(): string {
-        return this.config.defaultOrigin
-    }
-
-    // 设置默认源-即默认使用的模板源
-    setDefaultOrigin(origin: string) {
-        this.config.defaultOrigin = origin
-        this.saveConfig()
-    }
-
-    // 设置模板源(修改其中一项)-即所有的模板源
-    setTemplateOrigin(key: TemplateOriginType, url: string): void {
-        if (!this.config.templateOrigins) {
-            this.config.templateOrigins = { gitee: '', github: '' }
-        }
-        this.config.templateOrigins[key] = url
-        this.saveConfig()
-    }
-
-    // 删除模版源
-    delTemplateOrigin(key: TemplateOriginType) {
-        if (!this.config.templateOrigins) {
-            return
-        }
-        // 并非删除，而是置空
-        this.config.templateOrigins[key] = ''
-        this.saveConfig()
-    }
-
-    // 获取所有模板源
-    getTemplateOrigins(): Record<TemplateOriginType, string> {
-        return this.config.templateOrigins || {}
-    }
-
     // 获取所有可选的模板列表
     getTemplateList(): ITemplateItem[] {
         return this.config.templateList || []

@@ -65,6 +65,7 @@ export default defineConfig({
                 'os',
                 'child_process',
                 // 项目依赖
+                'table',
                 'chalk',
                 'commander',
                 'execa',

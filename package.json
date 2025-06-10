@@ -38,6 +38,7 @@
         "inquirer": "^12.6.3",
         "ora": "^8.2.0",
         "read-pkg": "^9.0.1",
+        "table": "^6.9.0",
         "validate-npm-package-name": "^6.0.0"
     },
     "devDependencies": {

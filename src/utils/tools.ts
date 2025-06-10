@@ -4,6 +4,7 @@ import validateNpmPackageName from 'validate-npm-package-name'
 import ora from 'ora'
 import { danger, info, success } from './logger'
 import { TemplateOriginType } from '@/types'
+import { CONFIG_KEYS } from '@/constants'
 
 // 检测是否是一个合法的项目名称
 export function validateProjectName(name: string): IValidationResult {
@@ -49,4 +50,19 @@ export function checkTemplateOrigin(): Promise<TemplateOriginType> {
                 })
         }
     })
+}
+
+// 验证配置项目 key 是否合法
+export function validateConfigKey(key: string): IValidationResult {
+    if (!key || key.trim() === '') {
+        return { valid: false, message: '配置项 key 不能为空' }
+    }
+
+    // 检测key是否是合法的 key
+    const keys = CONFIG_KEYS.map(item => item.key)
+    if (!keys.includes(key)) {
+        return { valid: false, message: `配置项 ${key} 不合法` }
+    }
+
+    return { valid: true, message: '' }
 }
