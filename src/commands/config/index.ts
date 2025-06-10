@@ -1,16 +1,17 @@
 import type { Command } from 'commander'
-import { getConfigCommand } from './get'
+import { getCommand } from './get'
 import { primary, success } from '@/utils'
 import { keysCommand } from './keys'
 import { setCommand } from './set'
 import { delCommand } from './del'
+import { clearCommand } from './clear'
 
 export default function configCommand(program: Command) {
     const config = program.command('config').description('coderjc cli 配置管理')
 
     // cc config - 显示所有配置
     //  - 共用方法，不传递参数则显示所有配置
-    config.action(() => getConfigCommand())
+    config.action(() => getCommand())
 
     // cc config keys
     config.command('keys').description('查看所有支持的配置项 key').action(keysCommand)
@@ -28,7 +29,7 @@ export default function configCommand(program: Command) {
                 false
             )} 或阅读文档: ${success('https://github.com/coderjc/coderjc-cli', { underline: true, bold: true }, false)}`
         )
-        .action(getConfigCommand)
+        .action(getCommand)
 
     // cc config set <key> <value>
     config
@@ -40,4 +41,17 @@ export default function configCommand(program: Command) {
 
     // cc config del <key>
     config.command('del').argument('<key>', '配置键名').description('暂无对应的行为实现').action(delCommand)
+
+    // cc config clear <key>
+    config
+        .command('clear')
+        .argument('<key>', '要清空的配置项')
+        .description('清空配置项内容（保留字段结构）')
+        .addHelpText(
+            'after',
+            `
+危险操作警告:
+  clear templateList  - 清空所有模板配置`
+        )
+        .action(clearCommand)
 }

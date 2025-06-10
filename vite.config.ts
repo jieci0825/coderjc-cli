@@ -47,7 +47,10 @@ export default defineConfig({
                 }),
                 // 复制插件：将JSON配置文件复制到输出目录
                 copy({
-                    targets: [{ src: 'src/global-config.json', dest: 'lib' }],
+                    targets: [
+                        { src: 'src/global-config.json', dest: 'lib' },
+                        { src: 'src/global-config.bak.json', dest: 'lib' }
+                    ],
                     // 'writeBundle'确保在构建完成后复制文件
                     hook: 'writeBundle'
                 })

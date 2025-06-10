@@ -23,7 +23,7 @@ function showTemplateList() {
     console.log(table(tableData, config as any))
 }
 
-export function getConfigCommand(key?: string) {
+export function getCommand(key?: string) {
     try {
         if (key) {
             const validResult = validateConfigKey(key)
