@@ -62,21 +62,45 @@ export class ConfigManager {
         return this.config.templateOrigins || {}
     }
 
-    // TODO 替换掉原来 configs 下定义的 templateList 模块
     // 获取所有可选的模板列表
     getTemplateList(): ITemplateItem[] {
         return this.config.templateList || []
     }
 
     // 添加模板列表项
+    addTemplateItem(item: ITemplateItem) {
+        if (!this.config.templateList) {
+            this.config.templateList = []
+        }
+        this.config.templateList.push(item)
+        this.saveConfig()
+    }
 
     // 删除模板列表项
+    delTemplateItem(index: number) {
+        if (!this.config.templateList) {
+            return
+        }
+        this.config.templateList.splice(index, 1)
+        this.saveConfig()
+    }
 
     // 修改模板列表项
+    updateTemplateItem(index: number, item: ITemplateItem) {
+        if (!this.config.templateList) {
+            return
+        }
+        this.config.templateList[index] = item
+        this.saveConfig()
+    }
 
-    // 重置模板列表
+    // 清空模板列表
+    resetTemplateList() {
+        this.config.templateList = []
+        this.saveConfig()
+    }
 
-    // 恢复默认配置
+    // TODO 恢复默认配置
 }
 
 export const configManagerInstance = new ConfigManager()
