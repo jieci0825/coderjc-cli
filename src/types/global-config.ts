@@ -1,7 +1,7 @@
-import { ITemplateItem } from './template'
+import { ITemplateItem, TemplateOriginType } from './template'
 
 export interface IGlobalConfig {
     defaultOrigin: string
-    templateOrigins: string[]
+    templateOrigins: Record<TemplateOriginType, string>
     templateList: ITemplateItem[]
 }

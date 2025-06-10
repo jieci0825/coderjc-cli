@@ -1,8 +1,8 @@
 import { getTemplateList } from '@/configs'
-import { IQuestionList } from '@/types'
+import { CreateActionContext, IQuestionList } from '@/types'
 
-export function templateListQuestion() {
-    const templateList = getTemplateList()
+export function templateListQuestion(ctx: CreateActionContext) {
+    const templateList = ctx.cmInstance.getTemplateList()
 
     const question: IQuestionList = {
         type: 'list',

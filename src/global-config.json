@@ -20,5 +20,8 @@
             "value": "koa-server-ts"
         }
     ],
-    "templateOrigins": ["https://gitee.com/qwer-li/coderjc-template", "https://github.com/jieci0825/coderjc-template"]
+    "templateOrigins": {
+        "gitee": "https://gitee.com/qwer-li/coderjc-template",
+        "github": "https://github.com/jieci0825/coderjc-template"
+    }
 }

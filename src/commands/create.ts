@@ -13,8 +13,10 @@ import {
     createDir,
     success,
     readJsonFile,
-    writeJsonFile
+    writeJsonFile,
+    configManagerInstance
 } from '@/utils'
+import type { ConfigManager } from '@/utils'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
 import ora from 'ora'
@@ -26,7 +28,8 @@ function createActionContext(projectName: string) {
         projectName,
         originType: 'github',
         templateName: '',
-        projectPath: path.resolve(process.cwd(), projectName)
+        projectPath: path.resolve(process.cwd(), projectName),
+        cmInstance: configManagerInstance
     }
 
     return ctx
@@ -90,7 +93,7 @@ async function processOptions(ctx: CreateActionContext, options: CreateCommandOp
 async function selectTemplate(ctx: CreateActionContext) {
     if (ctx.templateName) return
 
-    const result = await inquirer.prompt(templateListQuestion())
+    const result = await inquirer.prompt(templateListQuestion(ctx))
     ctx.templateName = result.templateName
 }
 

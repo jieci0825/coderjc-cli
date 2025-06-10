@@ -1,4 +1,5 @@
-import { TemplateOriginType } from './template'
+import type { ConfigManager } from '@/utils'
+import type { TemplateOriginType } from './template'
 
 // 创建命令上下文
 export type CreateActionContext = {
@@ -6,6 +7,7 @@ export type CreateActionContext = {
     originType: TemplateOriginType
     templateName: string
     projectPath: string
+    cmInstance: ConfigManager
 }
 
 // 创建命令 Options 参数
