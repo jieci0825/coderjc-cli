@@ -16,11 +16,10 @@ import {
     writeJsonFile,
     configManagerInstance
 } from '@/utils'
-import type { ConfigManager } from '@/utils'
-import chalk from 'chalk'
 import inquirer from 'inquirer'
 import ora from 'ora'
 import path from 'path'
+import type { Command } from 'commander'
 
 // 创建行为上下文
 function createActionContext(projectName: string) {
@@ -125,7 +124,7 @@ function validateTemplateListEmpty(ctx: CreateActionContext) {
     }
 }
 
-export default async function createCommand(projectName: string, options: CreateCommandOptions) {
+export async function createCommandAction(projectName: string, options: CreateCommandOptions) {
     const ctx = createActionContext(projectName)
 
     try {
@@ -152,4 +151,14 @@ export default async function createCommand(projectName: string, options: Create
         danger(error.message)
         process.exit(1)
     }
+}
+
+export default function createCommand(program: Command) {
+    program
+        .command('create')
+        .argument('<project-name>', '创建的项目名称')
+        .option('-f, --force', '强制覆盖已存在的项目目录')
+        .option('-t, --template <template-name>', '指定项目模板')
+        .description('创建一个项目')
+        .action(createCommandAction)
 }
