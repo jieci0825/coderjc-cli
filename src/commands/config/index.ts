@@ -3,6 +3,7 @@ import { getConfigCommand } from './get'
 import { primary, success } from '@/utils'
 import { keysCommand } from './keys'
 import { setCommand } from './set'
+import { delCommand } from './del'
 
 export default function configCommand(program: Command) {
     const config = program.command('config').description('coderjc cli 配置管理')
@@ -36,4 +37,7 @@ export default function configCommand(program: Command) {
         .argument('<value>', '配置值')
         .description('设置指定配置项，若这个配置项是数组类型，则<value>需要输入索引值')
         .action(setCommand)
+
+    // cc config del <key>
+    config.command('del').argument('<key>', '配置键名').description('暂无对应的行为实现').action(delCommand)
 }
