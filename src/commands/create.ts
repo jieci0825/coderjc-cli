@@ -1,9 +1,7 @@
-import { checkTemplateExist } from '@/configs'
 import { isForceQuestion, templateListQuestion } from '@/questions'
 import { CreateActionContext } from '@/types'
 import { CreateCommandOptions } from '@/types/create-command'
 import {
-    checkTemplateOrigin,
     danger,
     downloadTemplate,
     info,
@@ -25,10 +23,9 @@ import type { Command } from 'commander'
 function createActionContext(projectName: string) {
     const ctx: CreateActionContext = {
         projectName,
-        originType: 'github',
         templateName: '',
         projectPath: path.resolve(process.cwd(), projectName),
-        cmInstance: configManagerInstance
+        templateItem: null
     }
 
     return ctx
@@ -38,13 +35,16 @@ function createActionContext(projectName: string) {
 function processOptionTemplate(ctx: CreateActionContext, options: CreateCommandOptions) {
     if (!options.template) return
 
-    const isExist = checkTemplateExist(options.template)
+    const isExist = configManagerInstance.hasTemplateItem(options.template)
     if (!isExist) {
         danger(`指定的模板 ${options.template} 不存在，请检查或不指定模板名称进行选择`)
         process.exit(0)
     }
 
     ctx.templateName = options.template
+    // 同时赋值模板项
+    const item = configManagerInstance.getTemplateItemByValue(options.template)
+    ctx.templateItem = item
 }
 
 // 处理 options 之 force
@@ -90,10 +90,15 @@ async function processOptions(ctx: CreateActionContext, options: CreateCommandOp
 
 // 选择模板
 async function selectTemplate(ctx: CreateActionContext) {
-    if (ctx.templateName) return
+    // 如果指定了模板，则无需再选择
+    if (ctx.templateName) {
+        return
+    }
 
-    const result = await inquirer.prompt(templateListQuestion(ctx))
+    const result = await inquirer.prompt(templateListQuestion())
     ctx.templateName = result.templateName
+    const item = configManagerInstance.getTemplateItemByValue(ctx.templateName)
+    ctx.templateItem = item
 }
 
 // 修改模板 package.json 的内容
@@ -117,7 +122,7 @@ async function modifyPackageJson(ctx: CreateActionContext) {
 
 // 验证模板列表是否为空
 function validateTemplateListEmpty(ctx: CreateActionContext) {
-    const templateList = ctx.cmInstance.getTemplateList()
+    const templateList = configManagerInstance.getTemplateList()
     if (!templateList || templateList.length === 0) {
         danger(`模板列表为空，请先添加模板`)
         process.exit(0)
@@ -137,10 +142,6 @@ export async function createCommandAction(projectName: string, options: CreateCo
         }
 
         await processOptions(ctx, options)
-
-        const origin = await checkTemplateOrigin()
-        ctx.originType = origin
-
         await selectTemplate(ctx)
         await downloadTemplate(ctx)
         await modifyPackageJson(ctx)

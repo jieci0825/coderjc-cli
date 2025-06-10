@@ -1,13 +1,11 @@
-import type { ConfigManager } from '@/utils'
-import type { TemplateOriginType } from './template'
+import { ITemplateItem } from './template'
 
 // 创建命令上下文
 export type CreateActionContext = {
     projectName: string
-    originType: TemplateOriginType
     templateName: string
     projectPath: string
-    cmInstance: ConfigManager
+    templateItem: ITemplateItem | null
 }
 
 // 创建命令 Options 参数

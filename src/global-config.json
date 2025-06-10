@@ -3,20 +3,32 @@
         {
             "name": "koa-quick",
             "description": "一个非常简单的koa项目模板",
-            "originUrl": null,
-            "value": "koa-quick"
+            "originUrls": [
+                "https://gitee.com/qwer-li/coderjc-template.git",
+                "https://github.com/jieci0825/coderjc-template.git"
+            ],
+            "value": "koa-quick",
+            "isStore": true
         },
         {
             "name": "koa-server-js",
             "description": "用于开发的koa服务器模板(JS)",
-            "originUrl": null,
-            "value": "koa-server-js"
+            "originUrls": [
+                "https://gitee.com/qwer-li/coderjc-template.git",
+                "https://github.com/jieci0825/coderjc-template.git"
+            ],
+            "value": "koa-server-js",
+            "isStore": true
         },
         {
             "name": "koa-server-ts",
             "description": "用于开发的koa服务器模板(TS)",
-            "originUrl": null,
-            "value": "koa-server-ts"
+            "originUrls": [
+                "https://gitee.com/qwer-li/coderjc-template.git",
+                "https://github.com/jieci0825/coderjc-template.git"
+            ],
+            "value": "koa-server-ts",
+            "isStore": true
         }
     ]
 }

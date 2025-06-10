@@ -1,4 +1,3 @@
-import { TemplateOrigin } from '@/configs'
 import { IValidationResult } from '@/types/utils'
 import validateNpmPackageName from 'validate-npm-package-name'
 import ora from 'ora'
@@ -28,20 +27,19 @@ export function validateProjectName(name: string): IValidationResult {
     return { valid: true, message: '' }
 }
 
-// 检测 github 和 gitee 那个更快
-export function checkTemplateOrigin(): Promise<TemplateOriginType> {
+// 检测最快的模板源
+export function checkTemplateOrigin(list: string[]): Promise<string> {
     const spinner = ora(info('正在检测模板源，请稍后...', {}, false)).start()
     return new Promise((resolve, reject) => {
         // 记录最请求最先返回的时间
         let fastest = 0
-        for (const key in TemplateOrigin) {
-            const originKey = key as TemplateOriginType
-            fetch(TemplateOrigin[originKey])
+        for (const item of list) {
+            fetch(item)
                 .then(res => {
                     if (fastest === 0) {
-                        spinner.succeed(success(`检测到最快的模板源为：${originKey}`, {}, false))
+                        spinner.succeed(success(`检测到最快的模板源为：${item}`, {}, false))
                         fastest = Date.now()
-                        resolve(originKey)
+                        resolve(item)
                     }
                 })
                 .catch(err => {

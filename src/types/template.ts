@@ -6,8 +6,9 @@
 export interface ITemplateItem {
     name: string
     description: string
-    originUrl: null | string
+    originUrls: string[]
     value: string
+    isStore: boolean
 }
 
 // 模板来源常量对象类型

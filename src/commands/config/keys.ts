@@ -2,8 +2,8 @@ import { table } from 'table'
 
 export function keysCommand() {
     const tableData = [
-        ['template-list', '查看模板列表配置', 'get | set | clear'],
-        ['tl', 'template-list 的缩写', 'get | set | clear']
+        ['template-list', '查看模板列表配置', 'get | set | clear | reset'],
+        ['tl', 'template-list 的缩写', 'get | set | clear | reset']
     ]
 
     const config = {

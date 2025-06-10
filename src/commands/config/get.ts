@@ -6,21 +6,25 @@ function showTemplateList() {
     const config = {
         header: {
             alignment: 'center',
-            content: '模板列表\n第一行表示模板在配置中的字段名\n第二行的文本描述表示该字段所具备的意义'
+            content: '模板列表字段描述'
         }
     }
 
     const templateList = configManagerInstance.getTemplateList()
     const tableData = [
-        ...templateList.map(item => {
-            return [item.name, item.description, item.value, item.originUrl]
-        })
+        ['name', '选择模板时的名称'],
+        ['description', '模板的描述'],
+        ['value', '模板选中后的值'],
+        ['originUrls', '模板下载的源地址'],
+        ['isStore', '源地址是否是模板仓库']
     ]
 
-    tableData.unshift(['选择模板时的名称', '模板的描述', '模板选中后的值', '模板下载的源地址'])
-    tableData.unshift(['name', 'description', 'value', 'originUrl'])
+    tableData.unshift(['key', '描述'])
 
     console.log(table(tableData, config as any))
+
+    primary('模板列表配置数据：', { bold: true })
+    console.log(templateList)
 }
 
 export function getCommand(key?: string) {

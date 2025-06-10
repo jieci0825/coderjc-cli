@@ -41,9 +41,26 @@ export class ConfigManager {
         return this.config.templateList || []
     }
 
+    // 根据传入的 value 判断当前模板项是否存在
+    hasTemplateItem(value: string): boolean {
+        if (!this.config.templateList || this.config.templateList.length === 0) {
+            return false
+        }
+        return this.config.templateList.some(item => item.value === value)
+    }
+
+    // 根据 value 获取模板列表项
+    getTemplateItemByValue(value: string): ITemplateItem | null {
+        if (!this.config.templateList || this.config.templateList.length === 0) {
+            return null
+        }
+        // console.log(this.config.templateList)
+        return this.config.templateList.find(item => item.value === value) || null
+    }
+
     // 获取指定索引的模板列表项
     getTemplateItem(index: number): ITemplateItem | null {
-        if (!this.config.templateList) {
+        if (!this.config.templateList || this.config.templateList.length === 0) {
             return null
         }
         return this.config.templateList[index] || null

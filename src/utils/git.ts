@@ -6,24 +6,30 @@ import download from 'download-git-repo'
 import { readdirSync, statSync, renameSync, mkdirSync } from 'fs'
 import { join } from 'path'
 import { removeDir, removeFile, dirExists } from './file'
+import { checkTemplateOrigin } from './tools'
 
 // 下载模板
 export function downloadTemplate(ctx: CreateActionContext) {
-    return new Promise<void>((resolve, reject) => {
-        const spinner = ora(primary(`模板拉取中，请稍后...`, {}, false)).start()
-
-        const url = {
-            gitee: 'https://gitee.com/qwer-li/coderjc-template.git',
-            github: 'https://github.com/jieci0825/coderjc-template.git'
+    return new Promise<void>(async (resolve, reject) => {
+        if (!ctx.templateItem || !ctx.templateItem.originUrls || !ctx.templateItem.originUrls.length) {
+            reject('模板源地址不能为空')
+            return
         }
 
-        execa('git', ['clone', url[ctx.originType], ctx.projectPath], {
+        const spinner = ora(primary(`模板拉取中，请稍后...`, {}, false)).start()
+
+        const url = await checkTemplateOrigin(ctx.templateItem.originUrls)
+
+        execa('git', ['clone', url, ctx.projectPath], {
             cwd: process.cwd()
         })
             .then(() => {
                 spinner.succeed(success(`模板拉取成功`, {}, false))
-                // 拉取模板成功之后，需要删除多余的文件
-                removeExtraFiles(ctx)
+                // 拉取完成之后，根据 isStore 字段判断是否需要删除多余的文件
+                //  - isStore 为 true 表示需要删除多余的文件
+                if (ctx.templateItem!.isStore) {
+                    removeExtraFiles(ctx)
+                }
                 resolve()
             })
             .catch(() => {

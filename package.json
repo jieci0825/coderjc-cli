@@ -8,6 +8,12 @@
         "node": ">=18.0.0"
     },
     "type": "module",
+    "files": [
+        "lib",
+        "bin",
+        "README.md",
+        "LICENSE"
+    ],
     "scripts": {
         "dev": "npm run clean && vite build --watch",
         "clean": "node scripts/clean.js",

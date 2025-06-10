@@ -15,7 +15,8 @@ async function processTL(index: number) {
         name: '模板名称',
         description: '模板描述',
         value: '模板值',
-        originUrl: '模板下载地址'
+        originUrl: '模板下载地址',
+        isStore: ''
     }
 
     const items: IUpdateItemQuestion[] = Object.entries(templateItem).map(([key, value]) => {
