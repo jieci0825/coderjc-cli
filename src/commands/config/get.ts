@@ -34,7 +34,7 @@ export function getCommand(key?: string) {
 
             if (key === 'template-list' || key === 'tl') {
                 showTemplateList()
-                return
+                process.exit(0)
             }
 
             // TODO 可以扩展更多配置...
@@ -43,5 +43,6 @@ export function getCommand(key?: string) {
         }
     } catch (error: any) {
         danger('获取配置失败：', error.message)
+        process.exit(0)
     }
 }

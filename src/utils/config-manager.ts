@@ -1,6 +1,7 @@
 import { IGlobalConfig, ITemplateItem, TemplateOriginType } from '@/types'
 import path from 'path'
 import { readJsonFile, writeJsonFile } from './file'
+import { danger } from './logger'
 
 export class ConfigManager {
     private configPath: string
@@ -79,13 +80,28 @@ export class ConfigManager {
     }
 
     // 清空模板列表
-    resetTemplateList() {
+    clearTemplateList() {
         this.config.templateList = []
         this.saveConfig()
         this.loadConfig()
     }
 
-    // TODO 恢复默认配置
+    // 恢复默认配置
+    resetConfig<K extends keyof IGlobalConfig>(key?: K) {
+        const bakJsonPath = path.join(import.meta.dirname, '..', 'global-config.bak.json')
+        const bakJson = readJsonFile<IGlobalConfig>(bakJsonPath)
+        if (!bakJson) {
+            danger('备份文件不存在, 无法恢复默认配置!!!')
+            process.exit(0)
+        }
+        if (key) {
+            this.config[key] = bakJson[key]
+        } else {
+            this.config = bakJson
+        }
+        this.saveConfig()
+        this.loadConfig()
+    }
 }
 
 export const configManagerInstance = new ConfigManager()

@@ -1,7 +1,7 @@
 import { configManagerInstance, danger, validateConfigKey } from '@/utils'
 
 function processTL() {
-    configManagerInstance.resetTemplateList()
+    configManagerInstance.clearTemplateList()
 }
 
 export async function clearCommand(key: string) {

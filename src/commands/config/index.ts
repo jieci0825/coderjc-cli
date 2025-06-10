@@ -5,6 +5,7 @@ import { keysCommand } from './keys'
 import { setCommand } from './set'
 import { delCommand } from './del'
 import { clearCommand } from './clear'
+import { resetCommand } from './reset'
 
 export default function configCommand(program: Command) {
     const config = program.command('config').description('coderjc cli 配置管理')
@@ -41,6 +42,9 @@ export default function configCommand(program: Command) {
 
     // cc config del <key>
     config.command('del').argument('<key>', '配置键名').description('暂无对应的行为实现').action(delCommand)
+
+    // cc config reset [key]
+    config.command('reset').argument('[key]', '要重置的配置项').description('暂无对应的行为实现').action(resetCommand)
 
     // cc config clear <key>
     config
