@@ -32,6 +32,11 @@ export class ConfigManager {
         return this.config[key]
     }
 
+    // 获取默认源
+    getDefaultOrigin(): string {
+        return this.config.defaultOrigin
+    }
+
     // 设置默认源-即默认使用的模板源
     setDefaultOrigin(origin: string) {
         this.config.defaultOrigin = origin
