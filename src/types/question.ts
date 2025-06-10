@@ -27,3 +27,14 @@ export interface IQuestionList extends IQuestionItemBase {
     choices: Question['choices']
     default?: string
 }
+
+export interface IUpdateItemQuestion {
+    key: string
+    lebel: string
+    value: string
+}
+
+export interface IQuestionInput extends IQuestionItemBase {
+    type: 'input'
+    default?: string
+}

@@ -8,12 +8,15 @@ export class ConfigManager {
 
     constructor() {
         this.configPath = path.join(import.meta.dirname, '..', 'global-config.json')
-        this.config = this.loadConfig()
+        this.config = this.loadConfig(false)
     }
 
     // 加载配置
-    private loadConfig() {
+    private loadConfig(isForce: boolean = true) {
         const config = readJsonFile<IGlobalConfig>(this.configPath)!
+        if (isForce) {
+            this.config = config
+        }
         return config
     }
 
@@ -37,6 +40,14 @@ export class ConfigManager {
         return this.config.templateList || []
     }
 
+    // 获取指定索引的模板列表项
+    getTemplateItem(index: number): ITemplateItem | null {
+        if (!this.config.templateList) {
+            return null
+        }
+        return this.config.templateList[index] || null
+    }
+
     // 添加模板列表项
     addTemplateItem(item: ITemplateItem) {
         if (!this.config.templateList) {
@@ -44,6 +55,7 @@ export class ConfigManager {
         }
         this.config.templateList.push(item)
         this.saveConfig()
+        this.loadConfig()
     }
 
     // 删除模板列表项
@@ -53,6 +65,7 @@ export class ConfigManager {
         }
         this.config.templateList.splice(index, 1)
         this.saveConfig()
+        this.loadConfig()
     }
 
     // 修改模板列表项
@@ -62,12 +75,14 @@ export class ConfigManager {
         }
         this.config.templateList[index] = item
         this.saveConfig()
+        this.loadConfig()
     }
 
     // 清空模板列表
     resetTemplateList() {
         this.config.templateList = []
         this.saveConfig()
+        this.loadConfig()
     }
 
     // TODO 恢复默认配置
