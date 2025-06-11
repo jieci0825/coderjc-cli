@@ -1,6 +1,6 @@
 # coderjc CLI
 
-> 🚀 一个功能强大的项目模板管理工具，帮助你快速创建项目并管理自定义模板。支持从 Git 仓库拉取模板，智能化项目初始化，让开发更高效！
+> 🚀 一个项目模板管理工具，帮助你快速创建项目并管理自定义模板。支持从 Git 仓库拉取模板，智能化项目初始化，让开发更高效！
 
 [![npm version](https://img.shields.io/npm/v/coderjc-cli.svg)](https://www.npmjs.com/package/coderjc-cli)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jieci0825/coderjc-cli/blob/main/LICENSE)
