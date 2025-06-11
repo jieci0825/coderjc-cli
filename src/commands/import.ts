@@ -9,7 +9,8 @@ import {
     info,
     success,
     primary,
-    validateTemplateListFormat
+    validateTemplateListFormat,
+    isDir
 } from '@/utils'
 import { ITemplateItem, IGlobalConfig } from '@/types'
 import { execa } from 'execa'
@@ -22,9 +23,9 @@ export default function importCommand(program: Command) {
     program
         .command('import')
         .description('导入模板配置')
-        .option('--file <path>', '从 JSON 文件导入模板配置')
-        .option('--gits <url>', '从 git 模板仓库导入多个模板')
-        .option('--git <url>', '从 git 仓库导入单个模板')
+        .option('--file <path>', '从 JSON 文件导入模板配置（每次执行都是重新创建模板列表，合并需使用 --merge）')
+        .option('--gits <url>', '从 git 模板仓库导入多个模板（每次执行都是重新创建模板列表，合并需使用 --merge）')
+        .option('--git <url>', '从 git 仓库导入单个模板（同 value 默认替换，不支持 --merge）')
         .option('--merge', '与现有配置合并（同 value 的会跳过）')
         .action(importCommandAction)
 }
@@ -39,25 +40,30 @@ async function importCommandAction(options: { file?: string; gits?: string; git?
         return
     }
 
+    const spinner = ora(primary(`开始导入...`, {}, false)).start()
+
+    const dest = path.join(process.cwd(), '__coderjc_template-store__')
+
     try {
         if (file) {
             await importFromJsonFile(file, { merge })
         } else if (gits) {
-            await importFromGitStore(gits, { merge })
+            await importFromGitStore(gits, dest, { merge })
         } else if (git) {
             await importFromGitTemplate(git, { merge })
         }
+        spinner.succeed(success(`导入成功`, {}, false))
     } catch (error: any) {
-        danger(`导入失败: ${error.message}`)
+        spinner.fail(danger(`导入失败: ${error.message}`, {}, false))
     } finally {
+        // 移除临时目录
+        removeDir(dest)
         process.exit(0)
     }
 }
 
 // 从 JSON 文件导入
 async function importFromJsonFile(filePath: string, options: { merge?: boolean } = {}) {
-    const spinner = ora(primary(`开始从 JSON 文件导入模板配置...`, {}, false)).start()
-
     // 处理相对路径和绝对路径
     let resolvedPath: string
     if (isAbsolute(filePath)) {
@@ -69,20 +75,20 @@ async function importFromJsonFile(filePath: string, options: { merge?: boolean }
     info(`\n组装的 JSON 文件路径: ${resolvedPath}`)
 
     if (!fileExists(resolvedPath)) {
-        spinner.fail(danger(`JSON 文件不存在: ${resolvedPath}`, {}, false))
+        danger(`JSON 文件不存在: ${resolvedPath}`)
         process.exit(0)
     }
 
     // 读取并验证 JSON 文件
     const jsonData = readJsonFile<IGlobalConfig>(resolvedPath)
     if (!jsonData) {
-        spinner.fail(danger('读取失败', {}, false))
+        danger('读取失败')
         process.exit(0)
     }
 
     // 验证数据格式
     if (!validateTemplateListFormat(jsonData)) {
-        spinner.fail(danger('JSON 文件格式不正确，必须包含有效的 templateList 字段', {}, false))
+        danger('JSON 文件格式不正确，必须包含有效的 templateList 字段')
         process.exit(0)
     }
 
@@ -100,7 +106,7 @@ async function importFromJsonFile(filePath: string, options: { merge?: boolean }
         })
 
         success(`合并模式：成功导入 ${addedCount} 个新模板项`)
-        process.exit(0)
+        return
     }
 
     // 如果不是合并模式，则直接删除原有的模板项，并添加新的模板项
@@ -112,14 +118,86 @@ async function importFromJsonFile(filePath: string, options: { merge?: boolean }
 
     // 替换原模板列表
     configManagerInstance.setTemplateList(templateList)
-
     success(`替换模式：成功导入 ${templateList.length} 个模板项`)
-
-    spinner.succeed(success('JSON 文件导入完成', {}, false))
 }
 
 // 从 git 模板仓库导入（包含多个模板）
-async function importFromGitStore(gitUrl: string, options: { merge?: boolean } = {}) {}
+async function importFromGitStore(gitUrl: string, dest: string, options: { merge?: boolean } = {}) {
+    return new Promise<void>((resolve, reject) => {
+        const dirList: any[] = []
+        execa('git', ['clone', gitUrl, dest], { cwd: process.cwd() })
+            .then(() => {
+                // 读取项目目录下的所有文件和文件夹
+                const items = readdirSync(dest)
+                items.forEach(item => {
+                    // 判断是否是文件夹
+                    const target = path.join(dest, item)
+                    if (isDir(target)) {
+                        dirList.push({
+                            name: item,
+                            value: item,
+                            description: '',
+                            isStore: true,
+                            originUrls: [gitUrl],
+                            url: target
+                        })
+                    }
+                })
+
+                console.log(dirList)
+
+                // 遍历文件夹，读取每个文件夹下的 package.json 文件
+                for (const dir of dirList) {
+                    const packageJsonPath = path.join(dir.url, 'package.json')
+                    if (fileExists(packageJsonPath)) {
+                        const packageJson = readJsonFile<any>(packageJsonPath)
+                        if (packageJson) {
+                            dir.description = packageJson.description
+                        }
+                    }
+                }
+
+                const templateList: ITemplateItem[] = dirList.map(item => {
+                    return {
+                        name: item.name,
+                        value: item.value,
+                        description: item.description,
+                        isStore: item.isStore,
+                        originUrls: item.originUrls
+                    }
+                })
+
+                // 如果是合并模式，直接合并所有配置
+                if (options.merge) {
+                    info('使用合并模式导入配置，合并模式下相同 value 的会被跳过...')
+                    let addedCount = 0
+                    templateList.forEach(item => {
+                        if (!configManagerInstance.hasTemplateItem(item.value)) {
+                            configManagerInstance.addTemplateItem(item)
+                            addedCount++
+                        }
+                    })
+
+                    success(`合并模式：成功导入 ${addedCount} 个新模板项`)
+                    return
+                }
+
+                // 如果不是合并模式，则直接删除原有的模板项，并添加新的模板项
+                // 清空原有的所有模板项
+                configManagerInstance.clearTemplateList()
+                info('已经清空原有模板项')
+
+                // 替换原模板列表
+                configManagerInstance.setTemplateList(templateList)
+                success(`替换模式：成功导入 ${templateList.length} 个模板项`)
+
+                resolve()
+            })
+            .catch(err => {
+                reject(err)
+            })
+    })
+}
 
 // 从 git 仓库导入单个模板
 async function importFromGitTemplate(gitUrl: string, options: { merge?: boolean } = {}) {}
