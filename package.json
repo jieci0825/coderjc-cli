@@ -1,7 +1,7 @@
 {
     "name": "coderjc-cli",
     "version": "0.1.0",
-    "description": "一个简单的模板拉取工具，如果你觉得我的模板不错，欢迎使用",
+    "description": "一个简单的模板拉取工具，如果你觉得还不错，欢迎使用",
     "author": "coderjc <coderjc@qq.com>",
     "main": "lib/index.js",
     "engines": {
