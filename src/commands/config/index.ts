@@ -6,6 +6,7 @@ import { setCommand } from './set'
 import { delCommand } from './del'
 import { clearCommand } from './clear'
 import { resetCommand } from './reset'
+import { addCommand } from './add'
 
 export default function configCommand(program: Command) {
     const config = program.command('config').description('coderjc cli 配置管理')
@@ -32,13 +33,19 @@ export default function configCommand(program: Command) {
         )
         .action(getCommand)
 
-    // cc config set <key> <value>
+    // cc config set <key>
     config
         .command('set')
         .argument('<key>', '配置键名（template-list | tl | ...）')
-        .argument('<value>', '配置值')
-        .description('设置指定配置项，若这个配置项是数组类型，则<value>需要输入索引值')
+        .description('设置配置，会根据不同的 key 做不同的处理')
         .action(setCommand)
+
+    // cc config add <key>
+    config
+        .command('add')
+        .argument('<key>', '配置键名')
+        .description('添加配置，会根据不同的 key 做不同的处理')
+        .action(addCommand)
 
     // cc config del <key>
     config.command('del').argument('<key>', '配置键名').description('暂无对应的行为实现').action(delCommand)

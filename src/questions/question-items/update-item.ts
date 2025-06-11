@@ -5,7 +5,7 @@ export function updateItemQuestion(items: IUpdateItemQuestion[]) {
         return {
             type: 'input',
             name: item.key,
-            message: item.lebel,
+            message: item.label,
             default: item.value
         }
     })

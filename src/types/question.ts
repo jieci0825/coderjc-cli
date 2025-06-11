@@ -22,6 +22,15 @@ export interface IQuestionConfirm extends IQuestionItemBase {
     default?: boolean
 }
 
+export interface ISelectListItem {
+    label: string
+    value: string | number
+}
+export interface ISelectList {
+    key: string
+    message: string
+    list: ISelectListItem[]
+}
 export interface IQuestionList extends IQuestionItemBase {
     type: 'list'
     choices: Question['choices']
@@ -30,10 +39,9 @@ export interface IQuestionList extends IQuestionItemBase {
 
 export interface IUpdateItemQuestion {
     key: string
-    lebel: string
+    label: string
     value: string
 }
-
 export interface IQuestionInput extends IQuestionItemBase {
     type: 'input'
     default?: string

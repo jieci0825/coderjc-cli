@@ -4,7 +4,7 @@ export function singleInputQuestion(data: IUpdateItemQuestion) {
     const question = {
         type: 'input',
         name: data.key,
-        message: data.lebel,
+        message: data.label,
         default: data.value
     }
 
