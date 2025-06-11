@@ -3,6 +3,7 @@ import validateNpmPackageName from 'validate-npm-package-name'
 import ora from 'ora'
 import { danger, info, success } from './logger'
 import { CONFIG_KEYS } from '@/constants'
+import { IGlobalConfig } from '@/types'
 
 // 检测是否是一个合法的项目名称
 export function validateProjectName(name: string): IValidationResult {
@@ -62,4 +63,39 @@ export function validateConfigKey(key: string): IValidationResult {
     }
 
     return { valid: true, message: '' }
+}
+
+// 验证模板列表格式
+export function validateTemplateListFormat(data: any): data is IGlobalConfig {
+    if (!data || typeof data !== 'object') {
+        return false
+    }
+
+    if (!Array.isArray(data.templateList)) {
+        return false
+    }
+
+    // 验证每个模板项的格式
+    for (const item of data.templateList) {
+        if (!item || typeof item !== 'object') {
+            return false
+        }
+
+        if (
+            typeof item.name !== 'string' ||
+            typeof item.description !== 'string' ||
+            typeof item.value !== 'string' ||
+            typeof item.isStore !== 'boolean' ||
+            !Array.isArray(item.originUrls)
+        ) {
+            return false
+        }
+
+        // 验证 originUrls 中的每个 URL 都是字符串
+        if (!item.originUrls.every((url: any) => typeof url === 'string')) {
+            return false
+        }
+    }
+
+    return true
 }

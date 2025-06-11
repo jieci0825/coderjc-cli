@@ -76,6 +76,13 @@ export class ConfigManager {
         this.loadConfig()
     }
 
+    // 替换整个模板列表
+    setTemplateList(list: ITemplateItem[]) {
+        this.config.templateList = list
+        this.saveConfig()
+        this.loadConfig()
+    }
+
     // 删除模板列表项
     delTemplateItem(index: number) {
         if (!this.config.templateList) {
