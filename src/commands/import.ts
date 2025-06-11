@@ -25,7 +25,7 @@ export default function importCommand(program: Command) {
         .description('导入模板配置')
         .option('--file <path>', '从 JSON 文件导入模板配置（每次执行都是重新创建模板列表，合并需使用 --merge）')
         .option('--gits <url>', '从 git 模板仓库导入多个模板（每次执行都是重新创建模板列表，合并需使用 --merge）')
-        .option('--git <url>', '从 git 仓库导入单个模板（同 value 默认替换，不支持 --merge）')
+        .option('--git <url>', '从 git 仓库导入单个模板（同 value 默认覆盖，不支持 --merge）')
         .option('--merge', '与现有配置合并（同 value 的会跳过）')
         .action(importCommandAction)
 }
@@ -50,7 +50,7 @@ async function importCommandAction(options: { file?: string; gits?: string; git?
         } else if (gits) {
             await importFromGitStore(gits, dest, { merge })
         } else if (git) {
-            await importFromGitTemplate(git, { merge })
+            await importFromGitTemplate(git, dest, { merge })
         }
         spinner.succeed(success(`导入成功`, {}, false))
     } catch (error: any) {
@@ -144,15 +144,13 @@ async function importFromGitStore(gitUrl: string, dest: string, options: { merge
                     }
                 })
 
-                console.log(dirList)
-
                 // 遍历文件夹，读取每个文件夹下的 package.json 文件
                 for (const dir of dirList) {
                     const packageJsonPath = path.join(dir.url, 'package.json')
                     if (fileExists(packageJsonPath)) {
                         const packageJson = readJsonFile<any>(packageJsonPath)
                         if (packageJson) {
-                            dir.description = packageJson.description
+                            dir.description = packageJson.description || '[无描述]'
                         }
                     }
                 }
@@ -200,4 +198,40 @@ async function importFromGitStore(gitUrl: string, dest: string, options: { merge
 }
 
 // 从 git 仓库导入单个模板
-async function importFromGitTemplate(gitUrl: string, options: { merge?: boolean } = {}) {}
+async function importFromGitTemplate(gitUrl: string, dest: string, options: { merge?: boolean } = {}) {
+    return new Promise<void>((resolve, reject) => {
+        execa('git', ['clone', gitUrl, dest], { cwd: process.cwd() })
+            .then(() => {
+                const packageJsonPath = path.join(dest, 'package.json')
+                if (fileExists(packageJsonPath)) {
+                    const packageJson = readJsonFile<any>(packageJsonPath)
+                    if (packageJson) {
+                        if (!packageJson.name) {
+                            info('package.json 中没有 name 字段，使用时间戳代替')
+                        }
+
+                        const name = packageJson.name || new Date().getTime().toString()
+
+                        const data: ITemplateItem = {
+                            name,
+                            value: name,
+                            description: packageJson.description || '[无描述]',
+                            isStore: false,
+                            originUrls: [gitUrl]
+                        }
+
+                        if (configManagerInstance.hasTemplateItem(name)) {
+                            info('\n--git 导入时模板已存在，本次导入跳过')
+                        } else {
+                            configManagerInstance.addTemplateItem(data)
+                            success(`\n--git 导入成功：${name}`)
+                        }
+                        resolve()
+                    }
+                }
+            })
+            .catch(err => {
+                reject(err)
+            })
+    })
+}
