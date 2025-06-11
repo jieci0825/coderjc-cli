@@ -19,7 +19,6 @@ async function processTL() {
         if (answers.originUrls) {
             answers.originUrls = answers.originUrls.split(',').map((item: string) => item.trim())
         }
-        console.log(answers)
         configManagerInstance.addTemplateItem(answers as ITemplateItem)
         success('修改成功')
     } catch (error) {

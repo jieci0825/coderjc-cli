@@ -1,11 +1,11 @@
-import { IUpdateItemQuestion } from '@/types'
+import { IQuestionInput, IUpdateItemQuestion } from '@/types'
 
-export function singleInputQuestion(data: IUpdateItemQuestion) {
-    const question = {
+export function singleInputQuestion(params: IUpdateItemQuestion) {
+    const question: IQuestionInput = {
         type: 'input',
-        name: data.key,
-        message: data.label,
-        default: data.value
+        name: params.key,
+        message: params.label,
+        default: params.value
     }
 
     return question

@@ -54,7 +54,6 @@ export class ConfigManager {
         if (!this.config.templateList || this.config.templateList.length === 0) {
             return null
         }
-        // console.log(this.config.templateList)
         return this.config.templateList.find(item => item.value === value) || null
     }
 

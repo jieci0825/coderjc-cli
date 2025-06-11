@@ -48,10 +48,18 @@ export default function configCommand(program: Command) {
         .action(addCommand)
 
     // cc config del <key>
-    config.command('del').argument('<key>', '配置键名').description('暂无对应的行为实现').action(delCommand)
+    config
+        .command('del')
+        .argument('<key>', '配置键名')
+        .description('删除配置，会根据不同的 key 做不同的处理')
+        .action(delCommand)
 
     // cc config reset [key]
-    config.command('reset').argument('[key]', '要重置的配置项').description('暂无对应的行为实现').action(resetCommand)
+    config
+        .command('reset')
+        .argument('[key]', '要重置的配置项')
+        .description('如果没有指定 key 则重置所有配置')
+        .action(resetCommand)
 
     // cc config clear <key>
     config
