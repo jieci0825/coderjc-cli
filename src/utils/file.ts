@@ -153,3 +153,7 @@ export function writeJsonFile<T = any>(filePath: string, data: T, indent: number
         return false
     }
 }
+
+export function isDir(path: string): boolean {
+    return statSync(path).isDirectory()
+}

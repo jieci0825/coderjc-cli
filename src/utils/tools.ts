@@ -29,6 +29,12 @@ export function validateProjectName(name: string): IValidationResult {
 
 // 检测最快的模板源
 export function checkTemplateOrigin(list: string[]): Promise<string> {
+    if (list.length === 0) {
+        return Promise.reject('模板源列表不能为空')
+    }
+    if (list.length === 1) {
+        return Promise.resolve(list[0])
+    }
     const spinner = ora(info('正在检测模板源，请稍后...', {}, false)).start()
     return new Promise((resolve, reject) => {
         // 记录最请求最先返回的时间
