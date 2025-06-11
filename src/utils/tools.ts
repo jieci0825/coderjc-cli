@@ -2,7 +2,6 @@ import { IValidationResult } from '@/types/utils'
 import validateNpmPackageName from 'validate-npm-package-name'
 import ora from 'ora'
 import { danger, info, success } from './logger'
-import { TemplateOriginType } from '@/types'
 import { CONFIG_KEYS } from '@/constants'
 
 // 检测是否是一个合法的项目名称
