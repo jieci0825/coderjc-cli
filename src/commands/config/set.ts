@@ -34,6 +34,7 @@ async function processTL(index: number) {
         success('修改成功')
     } catch (error) {
         info('取消操作')
+    } finally {
         process.exit(0)
     }
 }
