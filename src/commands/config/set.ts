@@ -1,4 +1,4 @@
-import { updateItemQuestion } from '@/questions'
+import { confirmItemQuestion, updateItemQuestion } from '@/questions'
 import { ITemplateItem, IUpdateItemQuestion } from '@/types'
 import { configManagerInstance, danger, info, success, validateConfigKey } from '@/utils'
 import inquirer from 'inquirer'
@@ -15,16 +15,21 @@ async function processTL(index: number) {
         name: '模板名称',
         description: '模板描述',
         value: '模板值',
-        originUrl: '模板下载地址',
-        isStore: ''
+        originUrls: '模板下载地址(多个用逗号,隔开)',
+        isStore: '是否是模板仓库'
     }
 
-    const items: IUpdateItemQuestion[] = Object.entries(templateItem).map(([key, value]) => {
-        return { key, lebel: labelMap[key], value }
-    })
+    const items: IUpdateItemQuestion[] = Object.entries(templateItem)
+        .map(([key, value]) => {
+            return { key, lebel: labelMap[key], value }
+        })
+        .filter(item => item.key !== 'isStore')
 
     try {
-        const answers = await inquirer.prompt(updateItemQuestion(items))
+        const answers = await inquirer.prompt([
+            ...updateItemQuestion(items),
+            confirmItemQuestion({ name: 'isStore', message: '是否是模板仓库' })
+        ])
         configManagerInstance.updateTemplateItem(index, answers as ITemplateItem)
         success('修改成功')
     } catch (error) {
