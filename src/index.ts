@@ -1,9 +1,14 @@
 import { Command } from 'commander'
 import { readPackage } from 'read-pkg'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 import { configCommand, createCommand, listCommand, mainCommand, importCommand } from './commands'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 async function init() {
-    const pkg = await readPackage()
+    const pkg = await readPackage({ cwd: join(__dirname, '..') })
 
     const program = new Command()
 

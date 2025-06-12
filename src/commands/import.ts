@@ -10,7 +10,8 @@ import {
     success,
     primary,
     validateTemplateListFormat,
-    isDir
+    isDir,
+    createDir
 } from '@/utils'
 import { ITemplateItem, IGlobalConfig } from '@/types'
 import { execa } from 'execa'
@@ -42,9 +43,18 @@ async function importCommandAction(options: { file?: string; gits?: string; git?
 
     const spinner = ora(primary(`开始导入...`, {}, false)).start()
 
-    const dest = path.join(process.cwd(), '__coderjc_template-store__')
+    const dest = path.join(process.cwd(), '__coderjc-template-store__')
+
+    // 如果出现同名临时目录，则退出，并提示用户
+    if (dirExists(dest)) {
+        danger(`临时目录已存在，无法执行导入操作: ${dest}`)
+        process.exit(0)
+    }
 
     try {
+        // 提前创建临时目录
+        createDir(dest)
+
         if (file) {
             await importFromJsonFile(file, { merge })
         } else if (gits) {
