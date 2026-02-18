@@ -1,5 +1,0 @@
-export { default as mainCommand } from './main'
-export { default as createCommand } from './create'
-export { default as listCommand } from './list'
-export { default as configCommand } from './config/index'
-export { default as importCommand } from './import'
