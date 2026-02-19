@@ -2,6 +2,8 @@
     "name": "coderjc-cli",
     "version": "0.0.1",
     "description": "通用脚手架工具",
+    "author": "coderjc <coderjc@qq.com>",
+    "license": "MIT",
     "type": "module",
     "bin": {
         "coderjc": "./dist/index.mjs"
