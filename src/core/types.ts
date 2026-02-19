@@ -1,9 +1,10 @@
 /** 核心类型定义 */
 
 export interface TemplateInfo {
+  id: string
   name: string
   description: string
-  repo: string
+  version: string
 }
 
 export interface Manifest {
