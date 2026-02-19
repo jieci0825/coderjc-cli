@@ -1,9 +1,12 @@
 /** CLI 入口 */
-import { createRequire } from 'node:module'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { createCli } from './cli.js'
+import { usePkg } from './hooks/usePkg.js'
 
-const require = createRequire(import.meta.url)
-const pkg = require('../package.json') as { version: string }
+const pkgPath = resolve(dirname(fileURLToPath(import.meta.url)), '../package.json')
+const [getPkg] = usePkg(pkgPath)
+const { version } = getPkg<{ version: string }>()
 
-const program = createCli(pkg.version)
+const program = createCli(version)
 program.parse(process.argv)
