@@ -6,7 +6,7 @@ export function createCli(version: string): Command {
 
     program
         .name('coderjc')
-        .description('通用脚手架工具')
+        .description('按模板动态交互、裁剪并输出项目')
         .version(version, '-v, --version')
 
     return program
