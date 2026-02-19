@@ -13,7 +13,7 @@ dist-ssr
 *.local
 pnpm-lock.yaml
 package-lock.json
-design.md
+.notes
 
 # Editor directories and files
 .vscode/*
