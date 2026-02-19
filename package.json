@@ -1,26 +1,27 @@
 {
-  "name": "coderjc-cli",
-  "version": "0.0.1",
-  "description": "通用脚手架工具",
-  "type": "module",
-  "bin": {
-    "coderjc": "./dist/index.js"
-  },
-  "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch"
-  },
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
-    "@clack/prompts": "^1.0.1",
-    "commander": "^14.0.3",
-    "fast-glob": "^3.3.3",
-    "picocolors": "^1.1.1"
-  },
-  "devDependencies": {
-    "tsdown": "^0.20.3",
-    "typescript": "^5.9.3"
-  }
+    "name": "coderjc-cli",
+    "version": "0.0.1",
+    "description": "通用脚手架工具",
+    "type": "module",
+    "bin": {
+        "coderjc": "./dist/index.mjs"
+    },
+    "scripts": {
+        "build": "tsdown",
+        "dev": "tsdown --watch"
+    },
+    "files": [
+        "dist"
+    ],
+    "dependencies": {
+        "@clack/prompts": "^1.0.1",
+        "commander": "^14.0.3",
+        "fast-glob": "^3.3.3",
+        "picocolors": "^1.1.1"
+    },
+    "devDependencies": {
+        "@types/node": "^25.3.0",
+        "tsdown": "^0.20.3",
+        "typescript": "^5.9.3"
+    }
 }
