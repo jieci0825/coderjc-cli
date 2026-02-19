@@ -6,7 +6,8 @@
     "license": "MIT",
     "type": "module",
     "bin": {
-        "coderjc": "./dist/index.mjs"
+        "coderjc": "./dist/index.mjs",
+        "cjc": "./dist/index.mjs"
     },
     "scripts": {
         "build": "tsdown",
