@@ -5,7 +5,7 @@
 
 export default {
     // 单行代码长度
-    printWidth: 120,
+    printWidth: 80,
     // 缩进长度，空格
     tabWidth: 4,
     // 使用空格代替tab，true：制表符，false：空格
