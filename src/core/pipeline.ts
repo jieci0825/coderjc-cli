@@ -68,7 +68,7 @@ export async function runPipeline(
 
     s.stop('项目生成完成')
 
-    p.outro(pc.green('流水线执行完毕'))
+    p.outro(pc.green(`项目 ${projectName} 创建成功 🎉`))
 
     return {
         projectName,
