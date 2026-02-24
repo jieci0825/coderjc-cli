@@ -5,7 +5,7 @@ export interface PipelineContext {
     projectName: string
     template: TemplateInfo
     templateDir: string
-    tempDir: string
+    targetDir: string
     manifest: Manifest
     config: Record<string, unknown>
     transformResult: TransformResult
