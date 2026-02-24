@@ -2,6 +2,7 @@
 import { Command } from 'commander'
 import { registerCacheCommand } from './commands/cache'
 import { registerConfigCommand } from './commands/config'
+import { registerCreateCommand } from './commands/create'
 import { registerListCommand } from './commands/list'
 
 export function createCli(version: string): Command {
@@ -14,6 +15,7 @@ export function createCli(version: string): Command {
 
     registerCacheCommand(program)
     registerConfigCommand(program)
+    registerCreateCommand(program)
     registerListCommand(program)
 
     return program

@@ -6,3 +6,4 @@ const BASE_DIR = path.join(os.homedir(), '.cjc-cli')
 
 export const CACHE_DIR = path.join(BASE_DIR, 'cache')
 export const CONFIG_FILE = path.join(BASE_DIR, 'config.json')
+export const SCAFFOLD_DIR_NAME = '.scaffold'

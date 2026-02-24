@@ -8,18 +8,20 @@ export interface TemplateInfo {
 }
 
 export interface Manifest {
-  name: string
-  version: string
-  description: string
   prompts: PromptItem[]
+}
+
+export interface PromptOption {
+  label: string
+  value: string
 }
 
 export interface PromptItem {
   name: string
-  type: 'confirm' | 'select' | 'text'
+  type: 'confirm' | 'select' | 'multiselect' | 'text'
   message: string
-  initial?: unknown
-  choices?: string[]
+  default?: unknown
+  options?: PromptOption[]
 }
 
 export interface TransformResult {
